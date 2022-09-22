@@ -1,0 +1,43 @@
+<div class="single-blog-area blog-style-2 mb-50 wow fadeInUp"
+     data-wow-delay="0.4s"
+     data-wow-duration="1000ms">
+    <div class="row">
+        <div class="col-12 {{ div_class_1 }}">
+            <div class="single-blog-thumbnail">
+
+                {% if post.photo %}
+                    <img src="{{ post.photo.url }}" alt="">
+                {% else %}
+                    <img src="https://ixbt.online/gametech/covers/2021/05/28/6UAXRriv16OjB85z95YOF4B2YddqX07aakjfBHdI.jpg"
+                         alt="">
+                {% endif %}
+
+                <div class="post-date">
+                    <a href="#">{{ post.created_at|date:"d" }}<span>{{ post.created_at|date:"M" }}</span></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 {{ div_class_2 }}">
+            <!-- Blog Content -->
+            <div class="single-blog-content {{ div_class_3 }}">
+                <div class="line"></div>
+
+                {% for tag in post.tags.all %}
+                    <a href="{{ tag.get_absolute_url }}" class="post-tag" style="display:inline-block">{{ tag }}</a>
+                {% endfor %}
+
+                <h4><a href="{{ post.get_absolute_url }}" class="post-headline">{{ post.title }}</a></h4>
+                {% if div_class_2 == '' %}
+                    <p>{{ post.content|safe|truncatewords:60 }}</p>
+                {% else %}
+                    <p>{{ post.content|safe|truncatewords:20 }}</p>
+                {% endif %}
+                <a href="{{ post.get_absolute_url }}">Читать полностью</a>
+                <div class="post-meta">
+                    <p>By <a href="#">{{ post.author }}</a></p>
+                    <p>Просмотров: {{ post.views }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

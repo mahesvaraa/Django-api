@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load post_style %}
+{% block title %}{{ title }} :: {{ block.super }}{% endblock %}
+{% block logo %}
+
+    <!-- Logo Area -->
+    <div class="logo-area text-center">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-12">
+                    <a href="{% url 'home' %}" class="original-logo"><img src="{% static 'img/core-img/logo.png' %}"
+                                                                          alt=""></a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+<!-- ##### Hero Area Start ##### -->
+{% block content %}
+    {% if page_obj.number == 1 %}
+        <!-- ##### Hero Area Start ##### -->
+        <div class="hero-area">
+        <!-- Hero Slides Area -->
+        <div class="hero-slides owl-carousel">
+            <!-- Single Slide -->
+            {% for post in posts %}
+                {% if post.photo %}
+                    <div class="single-hero-slide bg-img"
+                         style="background-image: url({{ post.photo.url }})">
+                {% else %}
+                    <div class="single-hero-slide bg-img"
+                         style="background-image: url({{ 'https://ixbt.online/gametech/covers/2021/05/28/6UAXRriv16OjB85z95YOF4B2YddqX07aakjfBHdI.jpg' }})">
+                {% endif %}
+            <div class="container h-100">
+                <div class="row h-100 align-items-center">
+                    <div class="col-12">
+                        <div class="slide-content text-center">
+                            <div class="post-tag">
+                                {% for tag in post.tags.all %}
+                                    <a href="#" data-animation="fadeInUp">{{ tag.title }}</a>
+                                {% endfor %}
+                            </div>
+                            <h2 data-animation="fadeInUp" data-delay="250ms">
+                                <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            {% endfor %}
+            </div>
+        </div>
+        <!-- ##### Hero Area End ##### -->
+        {% include '_inc/_hero_area.html' %}
+    {% endif %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-9">
+
+                {% for post in posts %}
+
+                    <!-- Single Blog Area  -->
+                    {% if post.photo.resolution < 2.3 or not post.photo %}
+                        {% show_post post 'align-items-center' 'col-md-6' 'col-md-6' '' %}
+                    {% else %}
+                        {% show_post post '' '' '' 'mt-50' %}
+                    {% endif %}
+
+                {% endfor %}
+
+                <!-- Pagination -->
+                {% if page_obj.has_other_pages %}
+                    <ul class="pagination justify-content-center"
+                        data-wow-delay="0.7s"
+                        data-wow-duration="1000ms">
+
+                        {% if page_obj.has_previous %}
+                            <li><a href="?page={{ page_obj.previous_page_number }}"
+                                   class="btn pagination-original-btn">Previous</a></li>
+                        {% endif %}
+
+                        {% for p in page_obj.paginator.page_range %}
+
+                            {% if page_obj.number == p %}
+                                <li><a href="" class="btn pagination-original-btn-pressed disabled">{{ p }}</a>
+                                </li>
+                            {% elif p > page_obj.number|add:-3 and p < page_obj.number|add:3 %}
+                                <li><a href="?page={{ p }}" class="btn pagination-original-btn">{{ p }}</a></li>
+                            {% endif %}
+
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                            <li>
+                                <a href="?page={{ page_obj.next_page_number }}"
+                                   class="btn pagination-original-btn">Next</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+
+                {% endif %}
+            </div>
+            <!-- ##### Sidebar Area ##### -->
+            {% include '_inc/_sideblock.html' %}
+        </div>
+    </div>
+    <!-- ##### Blog Wrapper End ##### -->
+{% endblock %}

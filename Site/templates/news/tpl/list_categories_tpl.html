@@ -1,0 +1,8 @@
+<li><a href="#">Category</a>
+    <ul class="dropdown">
+        {% for category in categories %}
+        <li><a href="{{ category.get_absolute_url }}">{{ category.title }}</a></li>
+            <!-- <ul class="dropdown"></ul> -->
+        {% endfor %}
+    </ul>
+</li>

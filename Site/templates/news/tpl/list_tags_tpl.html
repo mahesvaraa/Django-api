@@ -1,0 +1,10 @@
+<div class="sidebar-widget-area">
+    <h5 class="title">Tags</h5>
+    <div class="widget-content">
+        <ul class="tags">
+            {% for tag in tags %}
+                <li><a href="{{ tag.get_absolute_url }}">{{ tag.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

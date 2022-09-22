@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load post_style %}
+{% load tags_list %}
+{% load latest_post %}
+{% block title %}{{ title }} :: {{ block.super }}{% endblock %}
+
+<!-- ##### Hero Area Start ##### -->
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-9">
+
+                {% for post in posts %}
+
+                    <!-- Single Blog Area  -->
+                    {% if post.photo.resolution < 2.3 or not post.photo %}
+                        {% show_post post 'align-items-center' 'col-md-6' 'col-md-6' '' %}
+                    {% else %}
+                        {% show_post post '' '' '' 'mt-50' %}
+                    {% endif %}
+
+                {% empty %}
+                    <p>Ничего не найдено</p>
+
+                {% endfor %}
+                <!-- Pagination -->
+                {% if page_obj.has_other_pages %}
+                    <ul class="pagination justify-content-center"
+                        data-wow-delay="0.7s"
+                        data-wow-duration="1000ms">
+                        {% if page_obj.has_previous %}
+                            <li><a href="?{{ s }}page={{ page_obj.previous_page_number }}"
+                                   class="btn pagination-original-btn">Previous</a></li>
+                        {% endif %}
+
+                        {% for p in page_obj.paginator.page_range %}
+                            {% if page_obj.number == p %}
+                                <li><a href="" class="btn pagination-original-btn-pressed disabled">{{ p }}</a>
+                                </li>
+                            {% elif p > page_obj.number|add:-3 and p < page_obj.number|add:3 %}
+                                <li><a href="?{{ s }}page={{ p }}" class="btn pagination-original-btn">{{ p }}</a></li>
+                            {% endif %}
+
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                            <li><a href="?{{ s }}page={{ page_obj.next_page_number }}"
+                                   class="btn pagination-original-btn">Next</a></li>
+                        {% endif %}
+                    </ul>
+
+                {% endif %}
+            </div>
+            <!-- ##### Sidebar Area ##### -->
+            {% include '_inc/_sideblock.html' %}
+        </div>
+    </div>
+    </div>
+    <!-- ##### Blog Wrapper End ##### -->
+{% endblock %}

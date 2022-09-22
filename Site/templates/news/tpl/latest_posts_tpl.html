@@ -1,0 +1,32 @@
+<div class="sidebar-widget-area">
+    <h5 class="title">Latest Posts</h5>
+
+    <div class="widget-content">
+        {% for post in posts %}
+            <!-- Single Blog Post -->
+            <div class="single-blog-post d-flex align-items-center widget-post">
+                <!-- Post Thumbnail -->
+                <div class="post-thumbnail">
+                    {% if post.photo %}
+                        <img src="{{ post.photo.url }}" alt="">
+                    {% else %}
+                        <img src="https://ixbt.online/gametech/covers/2021/05/28/6UAXRriv16OjB85z95YOF4B2YddqX07aakjfBHdI.jpg"
+                             alt="">
+                    {% endif %}
+                </div>
+                <!-- Post Content -->
+                <div class="post-content">
+                    {% for tag in post.tags.all %}
+                        <a href="{{ tag.get_absolute_url }}"
+                           class="post-tag"
+                           style="display:inline-block">{{ tag }}</a>
+                    {% endfor %}
+                    <h4><a href="#" class="post-headline">{{ post.title }}</a></h4>
+                    <div class="post-meta">
+                        <p><a href="#">{{ post.created_at|date:"d M" }}</a></p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
